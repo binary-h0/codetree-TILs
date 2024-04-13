@@ -49,13 +49,17 @@ def get_count_can_alert_chat_room(args):
 def controller(cmd, args, is_updated):
     if cmd == 200:
         set_alert(args)
+        is_updated = False
     elif cmd == 300:
         set_authority(args)
+        is_updated = False
     elif cmd == 400:
         set_parent(args)
+        is_updated = False
     elif cmd == 500:
         if not is_updated:
             calc_count_can_alert_chat_room()
+            is_updated = True
         print(get_count_can_alert_chat_room(args))
 
 
