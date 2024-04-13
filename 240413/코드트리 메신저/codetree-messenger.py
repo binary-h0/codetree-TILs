@@ -31,6 +31,7 @@ def calc_count_can_alert_chat_room():
         update_count_recursive(parents[c-1], power-1, alerts[c])
 
 def get_alert_room_count(args):
+    global answers
     que = deque()
     que.append((args[0], 1))
     answer = 0
@@ -43,6 +44,7 @@ def get_alert_room_count(args):
             if power <= npower:
                 answer += 1
             que.append((nr, power + 1))
+    answers[args[0]] = answer
     print(answer)            
     
 
@@ -72,6 +74,9 @@ def get_count_can_alert_chat_room(args):
     c = args[0]
     return answers[c]
 
+def get_fast(args):
+    print(answers[args[0]])
+
 def controller(cmd, args, is_updated):
     if cmd == 200:
         set_alert(args)
@@ -83,11 +88,11 @@ def controller(cmd, args, is_updated):
         set_parent(args)
         is_updated = False
     elif cmd == 500:
-        get_alert_room_count(args)
-        #if not is_updated:
-        #    calc_count_can_alert_chat_room()
-        #    is_updated = True
-        #print(get_count_can_alert_chat_room(args))
+        if not is_updated:
+            get_alert_room_count(args)
+            is_updated = True
+        else:
+            get_fast(args)
 
 
 if __name__=="__main__":
